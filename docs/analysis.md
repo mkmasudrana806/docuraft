@@ -1,13 +1,14 @@
 ---
-title: "Introduction"
-date: "2026-03-29"
+title: "Analysis"
+date: "2026-03-30"
 parent: null
-author: "Masud Rana"
-category: "General"
-tags: ["intro", "getting-started"]
+order: 4
+author: Sheikh
+category: analytics
+tags: ["technology", "analytics"]
 ---
 
-## API Documentation
+## About Analysis
 
 Use the Protocol PAI to access contacts, conversations, group messages, and more and seamlessly integrate your product into the workflows of dozens of devoted Protocol users.
 

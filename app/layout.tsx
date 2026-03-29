@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { getDocuments } from "../lib/doc";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Docuraft | Docs",
-  description: "Documentation for Docuraft, the AI-powered documentation generator.",
+  title: "Docuraft | A Documentation website by Protocol Labs",
+  description: "A Documentation website by Protocol Labs.",
 };
 
 export default function RootLayout({
@@ -22,6 +23,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const allDocuments = getDocuments();
+  console.log(allDocuments);
   return (
     <html lang="en">
       <body

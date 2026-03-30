@@ -2,15 +2,17 @@ import ContentDisplay from "@/components/ContentDisplay";
 import React from "react";
 
 type Props = {
-  params: {
+  params: Promise<{
     contentId: string;
-  };
+  }>;
 };
 
-const ContentPage = ({ params }: Props) => {
+const ContentPage = async ({ params }: Props) => {
+  const { contentId } = await params;
+
   return (
     <div>
-      <ContentDisplay id={params.contentId} />
+      <ContentDisplay id={contentId} />
     </div>
   );
 };

@@ -1,13 +1,16 @@
 import React from "react";
 
 type Props = {
-  params: {
+  params: Promise<{
+    contentId: string;
     subContentId: string;
-  };
+  }>;
 };
 
-const SubContentPage = ({ params }: Props) => {
-  return <div>{params.subContentId}</div>;
+const SubContentPage = async ({ params }: Props) => {
+  const { subContentId } = await params;
+
+  return <div>{subContentId}</div>;
 };
 
 export default SubContentPage;

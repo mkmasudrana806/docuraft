@@ -1,13 +1,9 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { TDocumentMeta } from "@/interface";
 
-interface Document {
-  id: string;
-  order: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
+
 
 const docsDirectory = path.join(process.cwd(), "docs");
 
@@ -24,9 +20,8 @@ export function getDocuments() {
     return {
       id,
       ...matterResult.data,
-    } as Document;
+    } as TDocumentMeta;
   });
 
-   
   return allDocuments.sort((a, b) => a.order - b.order);
 }

@@ -3,6 +3,7 @@ import Logo from "./Logo";
 import Search from "./Search";
 import { THeaderProps } from "@/interface";
 import { groupBy } from "@/lib/utils";
+import Sidebar from "./Sidebar";
 
 const Header = ({ docs }: THeaderProps) => {
   // filter out root and non-root documents
@@ -31,6 +32,8 @@ const Header = ({ docs }: THeaderProps) => {
           <Search />
         </div>
       </div>
+
+      <Sidebar docs={docs} />
     </header>
   );
 };

@@ -2,12 +2,15 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { TDocumentMeta } from "@/interface";
-
-
+import { remark } from "remark";
+import remarkHtml from "remark-html";
 
 const docsDirectory = path.join(process.cwd(), "docs");
 
-// get Documents
+/**
+ * --------- get all documents metadata ----------
+ * @returns document id and metadata
+ */
 export function getDocuments() {
   const fileNames = fs.readdirSync(docsDirectory);
 
@@ -25,3 +28,24 @@ export function getDocuments() {
 
   return allDocuments.sort((a, b) => a.order - b.order);
 }
+
+/**
+ * ----------- get document by id -----------
+ * @param id document id
+ * @returns processed document, metadata and id
+ */
+export const getDocumentContent = async (id: string) => {
+  const fullPath = path.join(docsDirectory, `${id}.md`);
+  const fileContents = fs.readFileSync(fullPath, "utf-8");
+  const matterResult = matter(fileContents);
+  const processContent = await remark()
+    .use(remarkHtml)
+    .process(matterResult.content);
+  const contentHtml = processContent.toString();
+
+  return {
+    id,
+    ...matterResult.data,
+    contentHtml,
+  } as TDocumentMeta & { id: string; contentHtml: string };
+};

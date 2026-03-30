@@ -4,7 +4,11 @@ import tailwindTypography from "@tailwindcss/typography";
 import aspectRatio from "@tailwindcss/aspect-ratio";
 
 const config: Config = {
-  content: ["./dist/*.{html,js}"],
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
   darkMode: "class",
   theme: {
     fontSize: {

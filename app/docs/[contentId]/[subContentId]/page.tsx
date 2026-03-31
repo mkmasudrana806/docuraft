@@ -1,3 +1,4 @@
+import ContentDisplay from "@/components/ContentDisplay";
 import React from "react";
 
 type Props = {
@@ -10,7 +11,7 @@ type Props = {
 const SubContentPage = async ({ params }: Props) => {
   const { subContentId } = await params;
 
-  return <div>{subContentId}</div>;
+  return <ContentDisplay id={subContentId} />;
 };
 
 export default SubContentPage;

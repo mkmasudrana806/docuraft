@@ -4,19 +4,48 @@ import { THeaderProps } from "@/interface";
 import { groupBy } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
 
 const Sidebar = ({ docs }: THeaderProps) => {
   const pathname = usePathname();
+  const segments = pathname.split("/").filter(Boolean);
+  const rawSlug = segments[segments.length - 1];
+
+  const slug = decodeURIComponent(rawSlug);
+
+  // filter docs if authors, categories, or tags is present in the url segments
+  let filteredDocs = docs;
+  if (segments.includes("authors")) {
+    filteredDocs = docs.filter((doc) => doc.author === slug);
+  } else if (segments.includes("categories")) {
+    filteredDocs = docs.filter((doc) => doc.category === slug);
+  } else if (segments.includes("tags")) {
+    filteredDocs = docs.filter((doc) => doc.tags.includes(slug));
+  }
 
   // filter out root and non-root documents
-  const roots = docs.filter((doc) => doc.parent === null);
+  const roots = filteredDocs.filter((doc) => doc.parent === null);
   const nonRoots = groupBy(
-    docs.filter((doc) => doc.parent !== null),
+    filteredDocs.filter((doc) => doc.parent !== null),
     (doc) => doc.parent!,
   );
 
-  const getLinkClassName = (href: string, activeClass: string, inactiveClass: string) =>
+  // if any non root document's parent is not present in the roots. then find it's parent and push to roots array
+  Object.keys(nonRoots).forEach((parentId) => {
+    const parentFoundInRoots = roots.find((root) => root.id === parentId);
+    if (!parentFoundInRoots) {
+      const parentDoc = docs.find((doc) => doc.id === parentId);
+      if (parentDoc) {
+        roots.push(parentDoc);
+      }
+    }
+  });
+
+  // helper function to get the class name for a link based on whether it is active or not
+  const getLinkClassName = (
+    href: string,
+    activeClass: string,
+    inactiveClass: string,
+  ) =>
     [
       "flex justify-between gap-2 py-1 pr-3 text-sm transition",
       href === pathname ? activeClass : inactiveClass,
@@ -46,7 +75,7 @@ const Sidebar = ({ docs }: THeaderProps) => {
               </Link>
 
               {nonRoots[rootNode.id] && (
-                <ul role="list" style={{ opacity: 1 } as React.CSSProperties}>
+                <ul role="list">
                   {nonRoots[rootNode.id].map((childNode) => {
                     const href = `/docs/${rootNode.id}/${childNode.id}`;
                     const isActive = pathname === href;

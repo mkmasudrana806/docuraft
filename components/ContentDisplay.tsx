@@ -1,8 +1,8 @@
-import { getDocumentContent } from "@/lib/doc";
+import { getDocumentContentById } from "@/lib/doc";
 import Link from "next/link";
 import Tag from "./Tag";
 const ContentDisplay = async ({ id }: { id: string }) => {
-  const documentContent = await getDocumentContent(id);
+  const documentContent = await getDocumentContentById(id);
 
   return (
     <article className="prose dark:prose-invert">

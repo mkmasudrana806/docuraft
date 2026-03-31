@@ -34,7 +34,7 @@ export function getDocuments() {
  * @param id document id
  * @returns processed document, metadata and id
  */
-export const getDocumentContent = async (id: string) => {
+export const getDocumentContentById = async (id: string) => {
   const fullPath = path.join(docsDirectory, `${id}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf-8");
   const matterResult = matter(fileContents);

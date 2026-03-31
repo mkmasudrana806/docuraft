@@ -1,7 +1,12 @@
 "use client";
 
 import { THeaderProps } from "@/interface";
-import { groupBy } from "@/lib/utils";
+import {
+  getDocumentsByAuthor,
+  getDocumentsByCategory,
+  getDocumentsByTags,
+  groupBy,
+} from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -15,11 +20,11 @@ const Sidebar = ({ docs }: THeaderProps) => {
   // filter docs if authors, categories, or tags is present in the url segments
   let filteredDocs = docs;
   if (segments.includes("authors")) {
-    filteredDocs = docs.filter((doc) => doc.author === slug);
+    filteredDocs = getDocumentsByAuthor(docs, slug);
   } else if (segments.includes("categories")) {
-    filteredDocs = docs.filter((doc) => doc.category === slug);
+    filteredDocs = getDocumentsByCategory(docs, slug);
   } else if (segments.includes("tags")) {
-    filteredDocs = docs.filter((doc) => doc.tags.includes(slug));
+    filteredDocs = getDocumentsByTags(docs, slug);
   }
 
   // filter out root and non-root documents
@@ -39,6 +44,9 @@ const Sidebar = ({ docs }: THeaderProps) => {
       }
     }
   });
+
+  // resort the roots
+  roots.sort((a, b) => a.order - b.order);
 
   // helper function to get the class name for a link based on whether it is active or not
   const getLinkClassName = (

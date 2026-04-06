@@ -1,6 +1,12 @@
 "use client";
 
-const ErrorComponent = ({ error, reset }) => {
+const ErrorComponent = ({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) => {
   return (
     <div>
       <h2>Something went wrong!</h2>

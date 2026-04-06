@@ -2,16 +2,9 @@ import React from "react";
 import Logo from "./Logo";
 import Search from "./Search";
 import { THeaderProps } from "@/interface";
-import { groupBy } from "@/lib/utils";
 import Sidebar from "./Sidebar";
 
 const Header = ({ docs }: THeaderProps) => {
-  // filter out root and non-root documents
-  const roots = docs.filter((doc) => doc.parent === null);
-  const nonRoots = groupBy(
-    docs.filter((doc) => doc.parent !== null),
-    (doc) => doc.parent!,
-  );
 
   return (
     <header className="fixed inset-y-0 left-0 z-40 contents w-72 overflow-y-auto border-r border-zinc-900/10 px-6 pb-8 pt-4 dark:border-white/10 lg:block xl:w-80">
@@ -29,7 +22,7 @@ const Header = ({ docs }: THeaderProps) => {
       >
         <div className="container flex h-14 items-center justify-between gap-12">
           <div className="absolute inset-x-0 top-full h-px bg-zinc-900/7.5 transition dark:bg-white/7.5"></div>
-          <Search />
+          <Search docs={docs} />
         </div>
       </div>
 
